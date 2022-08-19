@@ -41,6 +41,8 @@ if(choice_one == "left"):
             print("You are transported to a room filled with fire and meteors!\n Looking behind you, the door has disappeared! \n Suddenly a meteor has fallen from the sky and hits you! You have died!")
         elif (choice_three == "blue"):
             print("The blue door disappears and you are instantly transported into a dark room. \n The room rapidly fills up with water and you drown! Game Over!")
+        else: 
+          print("Your indecision has cost you your life! Game over!")   
     else:
         print("Piranhas leap out of the water and eat you up! Game Over!")
 else:
