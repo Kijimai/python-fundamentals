@@ -1,12 +1,4 @@
-year = int(input("Type in a year, we'll see if it is a leap year."))
-
-if year % 4 == 0:
-    if year % 100 == 0:
-        if year % 400 == 0:
-            print("Leap year.")
-        else:
-            print("Not leap year.")
-    else:print('''
+print('''
 *******************************************************************************
           |                   |                  |                     |
  _________|________________.=""_;=.______________|_____________________|_______
@@ -29,11 +21,27 @@ ____/______/______/______/______/_____"=.o|o_.--""___/______/______/______/____
 *******************************************************************************
 ''')
 print("Welcome to Treasure Island.")
-print("Your mission is to find the treasure.") 
+print("Your mission is to find the treasure.")
 
-#https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Treasure%20Island%20Conditional.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1oDe4ehjWZipYRsVfeAx2HyB7LCQ8_Fvi%26export%3Ddownload
+# https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Treasure%20Island%20Conditional.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1oDe4ehjWZipYRsVfeAx2HyB7LCQ8_Fvi%26export%3Ddownload
 
-#Write your code below this line 👇
-        print("Leap Year.")
+# Write your code below this line 👇
+
+choice_one = input(
+    "You come across a fork, which direction do you choose? left or right? ").lower()
+if(choice_one == "left"):
+    choice_two = input(
+        "You come across a pond, do you wait, or swim across? ").lower()
+    if(choice_two == "wait"):
+        print("The water rapidly dries up revealing three doors!")
+        choice_three = input("Pick a door: Red, Blue, Yellow ").lower()
+        if(choice_three == "yellow"):
+            print("You found the treasure! YOU HAVE FOUND ONE PIECE.")
+        elif (choice_three == "red"):
+            print("You are transported to a room filled with fire and meteors!\n Looking behind you, the door has disappeared! \n Suddenly a meteor has fallen from the sky and hits you! You have died!")
+        elif (choice_three == "blue"):
+            print("The blue door disappears and you are instantly transported into a dark room. \n The room rapidly fills up with water and you drown! Game Over!")
+    else:
+        print("Piranhas leap out of the water and eat you up! Game Over!")
 else:
-    print("Not leap year.")
+    print("You fell into an endless pit. Game over. Restart the game.")
