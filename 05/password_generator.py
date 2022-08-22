@@ -18,15 +18,15 @@ nr_numbers = int(input(f"How many numbers would you like?\n"))
 # easy-mode solution
 generated_pass = []
 
-for n in range(0, nr_letters - 1):
+for n in range(0, nr_letters + 1):
     rando = random.randint(0, len(letters) - 1)
     generated_pass.append(letters[rando])
 
-for n in range(0, nr_symbols - 1):
+for n in range(0, nr_symbols + 1):
     rando = random.randint(0, len(symbols) - 1)
     generated_pass.append(symbols[rando])
 
-for n in range(0, nr_numbers - 1):
+for n in range(0, nr_numbers + 1):
     rando = random.randint(0, len(numbers) - 1)
     generated_pass.append(numbers[rando])
 
