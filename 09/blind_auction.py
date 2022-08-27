@@ -14,19 +14,23 @@ def add_bidder(name, bid_amount):
     print(all_bidders)
 
 
-while keep_going:
-    name = input("What is the bidder's name? ")
-    bid_price = int(input("What is their bid? "))
-    add_bidder(name, bid_price)
-    answer = input("Bidder added! Keep going? type 'yes' or 'no'").lower()
-    if answer == "yes":
-        keep_going = True
-    else:
-        keep_going = False
+def find_largest_bid():
+    winner = {"bid": 0, "bidder": ""}
+    for bidder in all_bidders:
+        if bidder["bid"] > winner["bid"]:
+            winner["bid"] = bidder["bid"]
+            winner["bidder"] = bidder["bidder"]
+    print(
+        f"The largest bid was {winner['bid']} by {winner['bidder']}!")
 
-largest_bid = 0
-for bidder in all_bidders:
-    if bidder["bid"] > largest_bid:
-        largest_bid = bidder['bid']
-print(
-    f"The largest bid was {largest_bid}!")
+
+while keep_going:
+    name=input("What is the bidder's name? ")
+    bid_price=int(input("What is their bid? $"))
+    add_bidder(name, bid_price)
+    answer=input("Bidder added! Keep going? type 'yes' or 'no'").lower()
+    if answer == "yes":
+        keep_going=True
+    else:
+        keep_going=False
+        find_largest_bid()
