@@ -28,7 +28,7 @@ def start_game():
     while not game_over:
         a_item = winner or get_data()
         b_item = get_data()
-        if b_item["name"] == a_item["name"]:
+        while b_item["name"] == a_item["name"]:
             b_item = get_data()
         a_name, b_name = a_item["name"], b_item["name"]
         a_description, b_description = a_item["description"], b_item["description"]
