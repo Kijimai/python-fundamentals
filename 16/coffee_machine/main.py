@@ -20,10 +20,8 @@ def start_machine():
             choice = input(
                 f"What would you like to have? {coffee_menu.get_items()}\n")
             drink = coffee_menu.find_drink(choice)
-            if coffee_maker.is_resource_sufficient(drink):
-                if money_machine.make_payment(drink.cost):
-                  coffee_maker.make_coffee(drink)
-              
+            if coffee_maker.is_resource_sufficient(drink) and money_machine.make_payment(drink.cost):
+                coffee_maker.make_coffee(drink)
         elif answer == 'report':
             coffee_maker.report()
             money_machine.report()
