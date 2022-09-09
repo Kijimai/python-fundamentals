@@ -30,3 +30,10 @@ class ScoreBoard(Turtle):
         self.color("white")
         self.write(f"Current Score: {self.score}",
                    font=FONT_STYLE, align=ALIGNMENT)
+
+    # def restart(self):
+    #     self.goto(0, 250)
+    #     self.score = 0
+    #     self.clear()
+    #     self.write(f"Current Score: {self.score}",
+    #                font=FONT_STYLE, align=ALIGNMENT)
