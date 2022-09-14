@@ -31,7 +31,8 @@ while len(guessed_states) < 50:
         state_manager.create_state(answer_state, state_coord)
 
     elif answer_state.lower() == "q":
-        missing_states = [state for state in all_states if state not in all_states]
+        missing_states = [
+            state for state in all_states if state not in guessed_states]
         new_data = pd.DataFrame(missing_states)
         new_data.to_csv('states_to_learn.csv')
         break
