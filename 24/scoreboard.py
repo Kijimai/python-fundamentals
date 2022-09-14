@@ -1,5 +1,4 @@
 from turtle import Turtle, width
-import pathlib
 
 ALIGNMENT = "center"
 FONT_STYLE = ("arial", 20, "normal")
