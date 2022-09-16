@@ -36,3 +36,4 @@ print(alphabet_dict)
 user_input = input("Enter a word: ")
 user_list = [alphabet_dict[letter.upper()] for letter in user_input]
 print(user_list)
+
