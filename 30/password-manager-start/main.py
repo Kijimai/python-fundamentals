@@ -1,9 +1,7 @@
-from multiprocessing.sharedctypes import Value
 from random import choice, randint, shuffle
 from tkinter import *
 from tkinter import messagebox
 import json
-from types import NoneType
 import pyperclip
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
@@ -39,44 +37,61 @@ def clear_entry():
 
 
 def save_data():
-    try:
-        web_name = website_entry.get()
-        email_user_name = email_user_entry.get()
-        password = pass_entry.get()
-        if not web_name or not email_user_name or not password:
-            raise EOFError("Do not leave any field empty!")
-    # Catch error if any of the inputs are empty            
-    except EOFError:
+    web_name = website_entry.get()
+    email_user_name = email_user_entry.get()
+    password = pass_entry.get()
+    if not web_name or not email_user_name or not password:
         messagebox.showwarning(message="Please dont leave a field empty!")
         confirmation_label.config(text="Don't leave a field empty!", fg='red')
         return
+# Catch error if any of the inputs are empty
+    new_data = {web_name: {
+        "email_user": email_user_name,
+        "password": password
+    }}
+    try:
+        with open('./data.json', mode="r") as data_file:
+            # Read old data
+            data = json.load(data_file)
+    # If the file does not exist, create the file
+    except FileNotFoundError:
+        with open('./data.json', mode="w") as data_file:
+            json.dump(new_data, data_file, indent=4)
+    # If the file exists, but has nothing in it, write the current entries into it
+    except json.decoder.JSONDecodeError:
+        with open('./data.json', mode="w") as data_file:
+            json.dump(new_data, data_file, indent=4)
     else:
-        new_data = {web_name: {
-            "email_user": email_user_name,
-            "password": password
-        }}
-        try:
-            with open('./data.json', mode="r") as data_file:
-                # Read old data
-                data = json.load(data_file)
-        # If the file does not exist, create the file            
-        except FileNotFoundError:
-            with open('./data.json', mode="w") as data_file:
-                json.dump(new_data, data_file, indent=4)
-        # If the file exists, but has nothing in it, write the current entries into it        
-        except json.decoder.JSONDecodeError:
-            with open('./data.json', mode="w") as data_file:
-                json.dump(new_data, data_file, indent=4)        
+        # update the old data with new data
+        data.update(new_data)
+        with open('./data.json', mode="w") as data_file:
+            # save the updated data
+            json.dump(data, data_file, indent=4)
+    finally:
+        clear_entry()
+        confirmation_label.config(
+            text="Entries saved to data.txt!", fg='green')
+
+# ---------------------------- SEARCH EXISTING PASSWORD ------------------------------- #
+
+def find_password():
+    search_entry = website_entry.get()
+    try:
+        with open('./data.json', mode="r") as data_file:
+            data = json.load(data_file)
+    except:
+        with open('./data.json', mode="w") as data_file:
+            data_file.write("{}")
+    else:
+        if search_entry in data:
+            user_info = data[search_entry]["email_user"]
+            pass_info = data[search_entry]["password"]
+            messagebox.showinfo(
+                title=f"Info for {search_entry}", message=f"Email/Username: {user_info}\nPassword: {pass_info}")
         else:
-            # update the old data with new data
-            data.update(new_data)
-            with open('./data.json', mode="w") as data_file:
-                # save the updated data
-                json.dump(data, data_file, indent=4)
-        finally:
-            clear_entry()
-            confirmation_label.config(
-                text="Entries saved to data.txt!", fg='green')
+            messagebox.showinfo(title="Website not found",
+                                text="No details for the website exists.")
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 
@@ -106,10 +121,12 @@ generate_btn = Button(text="Generate Password", command=generate_pass)
 add_btn = Button(text="Add", command=save_data)
 generate_btn.grid(column=2, row=3)
 add_btn.grid(column=1, row=4, columnspan=2, sticky="EW")
+search_btn = Button(text="Search", command=find_password)
+search_btn.grid(column=2, row=1, sticky="EW")
 
 # Entry inputs
 website_entry = Entry()
-website_entry.grid(column=1, row=1, columnspan=2, sticky="EW")
+website_entry.grid(column=1, row=1, sticky="EW")
 website_entry.focus()
 email_user_entry = Entry()
 email_user_entry.grid(column=1, row=2, columnspan=2, sticky="EW")
