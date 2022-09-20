@@ -81,7 +81,7 @@ def find_password():
             data = json.load(data_file)
     except:
         with open('./data.json', mode="w") as data_file:
-            data_file.write("{}")
+            json.dump({}, data_file)
     else:
         if search_entry in data:
             user_info = data[search_entry]["email_user"]
