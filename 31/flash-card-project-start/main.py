@@ -12,30 +12,80 @@ DEFINITION_FONT_SETTINGS = ("Ariel", 60, "bold")
 
 BACKGROUND_COLOR = "#B1DDC6"
 
-csv_data = pd.read_csv('./data/french_words.csv')
+# Flip delay in milliseconds
+FLIP_DELAY = 3000
+try:
+    csv_data = pd.read_csv('./data/words_to_learn.csv')
+except FileNotFoundError:
+    original_data = pd.read_csv('./data/french_words.csv')
+    to_learn_list = original_data.to_dict(orient="records")
+else:
+    to_learn_list = csv_data.to_dict(orient="records")
 # List of dictionaries
-to_learn_list = csv_data.to_dict(orient="records")
-print(to_learn_list)
-
+list_cleared = False
+current_choice = {}
+learned_words = []
 # ================================= INTERACTIVITY
 
 
+def close_app():
+    window.destroy()
+
+
 def next_card():
-    current_choice = choice(to_learn_list)
-    canvas.itemconfig(card_title, text="French")
-    canvas.itemconfig(card_word, text=current_choice["French"])
+    global list_cleared
+    if list_cleared:
+        return
+    global current_choice, flip_timer
+    # cancel the current timer running -- reassigns it after this function goes through all of its actions
+    window.after_cancel(flip_timer)
+    if len(to_learn_list) > 0:
+        current_choice = choice(to_learn_list)
+        canvas.itemconfig(card_title, text="French", fill="black")
+        canvas.itemconfig(
+            card_word, text=current_choice["French"], fill="black")
+        canvas.itemconfig(card_bg, image=card_front_img)
+        flip_timer = window.after(FLIP_DELAY, to_english)
+    else:
+        list_cleared = True
+        canvas.itemconfig(card_title, text="Congratulations!", fill="black")
+        canvas.itemconfig(
+            card_word, text="You've learned all the words in the list!", font=("Ariel", 30, "bold"))
+        wrong_btn.configure(image=None,
+                            text="Exit", highlightthickness=0, command=close_app)
+        right_btn.configure(image=None,
+                            text="Restart", highlightthickness=0, command=check_out)
+
+
+def to_english():
+    canvas.itemconfig(card_title, text="English", fill="white")
+    canvas.itemconfig(card_word, text=current_choice["English"], fill="white")
+    canvas.itemconfig(card_bg, image=card_back_img)
 
 
 def x_out():
-    print("X out")
     next_card()
-    pass
 
 
 def check_out():
-    print("Check out")
-    next_card()
-    pass
+    learned_words.append(current_choice)
+    is_known()
+    save_progress()
+
+
+def save_progress():
+    words_to_learn_saved = pd.DataFrame(to_learn_list)
+    words_to_learn_saved.to_csv('./data/words_to_learn.csv', index=False)
+
+
+def is_known():
+    global current_choice
+    try:
+        to_learn_list.remove(current_choice)
+    except ValueError:
+        return    
+    else:
+        next_card()
 
 # ================================= UI SETUP
 
@@ -43,13 +93,17 @@ def check_out():
 # WINDOW RELATED
 window = Tk()
 window.config(bg=BACKGROUND_COLOR, padx=50, pady=50)
+
+flip_timer = window.after(FLIP_DELAY, to_english)
+
+
 card_front_img = PhotoImage(file=CARD_FRONT)
 card_back_img = PhotoImage(file=CARD_BACK)
 
 # CANVAS RELATED
 canvas = Canvas(window, width=800, height=526,
                 bg=BACKGROUND_COLOR, highlightthickness=0)
-canvas.create_image(400, 263, image=card_front_img)
+card_bg = canvas.create_image(400, 263, image=card_front_img)
 card_title = canvas.create_text(
     400, 150, font=LANGUAGE_FONT_SETTINGS)
 card_word = canvas.create_text(
