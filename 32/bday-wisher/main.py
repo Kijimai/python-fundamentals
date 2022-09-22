@@ -31,10 +31,9 @@ email_options = {
     "outlook": "outlook.office365.com",
     "gmail": "smtp.gmail.com"
 }
-
+    
 bday_csv_data = pd.read_csv('./birthdays.csv')
 bday_list = bday_csv_data.to_dict(orient="records")
-
 current_date = dt.datetime.now()
 day = current_date.day
 month = current_date.month
