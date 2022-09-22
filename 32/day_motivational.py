@@ -35,7 +35,6 @@ email_options = {
     "gmail": "smtp.gmail.com"
 }
 
-connection = smtplib.SMTP(email_options["gmail"], port=587)
 with smtplib.SMTP(email_options["gmail"], port=587) as connection:
     # Starts a secure connection with the server
     motivation_quote = choice(stripped_quotes)
