@@ -14,12 +14,14 @@ email_options = {
     "gmail": "smtp.gmail.com"
 }
 
+print(CURR_EMAIL, CURR_PW)
+
 
 # Take off port=587 options for non-gmail email
 # connection = smtplib.SMTP(email_options["gmail"], port=587)
-with smtplib.SMTP(email_options["gmail"], port=587) as connection:
-    # Starts a secure connection with the server
-    connection.starttls()
-    connection.login(user=CURR_EMAIL, password=CURR_PW)
-    connection.sendmail(from_addr=CURR_EMAIL,
-                        to_addrs="jdbucog@yahoo.com", msg="Subject:HElllooo Test\n\nThis is the body of my email!")
+# with smtplib.SMTP(email_options["gmail"], port=587) as connection:
+#     # Starts a secure connection with the server
+#     connection.starttls()
+#     connection.login(user=CURR_EMAIL, password=CURR_PW)
+#     connection.sendmail(from_addr=CURR_EMAIL,
+#                         to_addrs="jdbucog@yahoo.com", msg="Subject:HElllooo Test\n\nThis is the body of my email!")
