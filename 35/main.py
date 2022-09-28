@@ -3,8 +3,7 @@ from twilio.rest import Client
 from twilio.http.http_client import TwilioHttpClient
 from dotenv import load_dotenv
 import requests
-import json
-import datetime as dt
+# import json
 load_dotenv()
 
 
