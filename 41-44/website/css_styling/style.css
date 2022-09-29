@@ -1,0 +1,19 @@
+body {
+  font-family: "open sans";
+  background-color: lightblue;
+}
+
+thead {
+  background-color: grey;
+  color: white;
+}
+
+.project-table {
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+.project-image {
+  width: 400px;
+  display: block;
+}
