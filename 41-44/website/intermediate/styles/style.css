@@ -1,0 +1,30 @@
+:root {
+  --light-blue-bg: rgb(106, 195, 224);
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; /*10px*/
+}
+
+body {
+  min-height: 100vh;
+  font-family: "open sans";
+  background-color: var(--light-blue-bg);
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 70%;
+}
